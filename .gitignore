@@ -1,0 +1,16 @@
+# PyCharm
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environments
+.venv/
+venv/
+
+# Local secrets
+.env
+
+# Jupyter
+.ipynb_checkpoints/
