@@ -36,7 +36,10 @@ def _strip_html(raw: str) -> str:
 
 
 def _fetch_live() -> dict[str, str]:
-    """Fetch the pages from loka.com; raise on any failure."""
+    """Fetch the loka.com pages, skipping any that don't return 200.
+
+    Raises RuntimeError if httpx isn't installed or no pages could be fetched.
+    """
     if httpx is None:
         raise RuntimeError("httpx not available")
     pages: dict[str, str] = {}
@@ -53,11 +56,21 @@ def _fetch_live() -> dict[str, str]:
 
 
 def _get_pages() -> tuple[dict[str, str], str]:
-    """Return (pages, source) where source is 'live' or 'cache (offline)'."""
+    """Return (pages, source) where source is 'live' or 'cache (offline)'.
+
+    Tries a live fetch first and falls back to the bundled snapshot. If both
+    fail, raises a RuntimeError that reports the live and cache errors together.
+    """
     try:
         return _fetch_live(), "live"
-    except Exception:
-        return json.loads(_CACHE_PATH.read_text(encoding="utf-8")), "cache (offline)"
+    except Exception as live_error:
+        try:
+            return json.loads(_CACHE_PATH.read_text(encoding="utf-8")), "cache (offline)"
+        except (OSError, ValueError) as cache_error:
+            raise RuntimeError(
+                f"Could not fetch loka.com live ({live_error}) and the offline "
+                f"cache at {_CACHE_PATH} is unavailable ({cache_error})."
+            ) from cache_error
 
 
 def _tokenize(text: str) -> set[str]:

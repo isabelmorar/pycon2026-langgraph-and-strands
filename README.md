@@ -17,7 +17,7 @@ git clone https://github.com/isabelmorar/pycon2026-langgraph-and-strands.git
 # 2. From the repo root use uv to install dependencies and create a virtual environment:
 uv sync                     
 
-# 2. Add your API key
+# 3. Add your API key
 cp .env.example .env        # then paste your key into ANTHROPIC_API_KEY
 ```
 
@@ -29,11 +29,11 @@ uv run python shared/knowledge_base.py
 
 ## Running the notebooks
 
-The hand-on part of the workshop is in Jupyter notebooks. Run them either with `uv run jupyter lab` or in VS Code / PyCharm with the `.venv` interpreter.
+The hands-on part of the workshop is in Jupyter notebooks. Run them either with `uv run jupyter lab` or in VS Code / PyCharm with the `.venv` interpreter.
 
 Open the two notebooks in `notebooks/` (one for each framework) and complete the exercises as indicated throughout the workshop.
 
-Answers will be published to **`solutions/`** after each exercise has had some  experiment time. Run `git pull` to get them.
+Answers will be published to **`solutions/`** after each exercise has had some experiment time. Run `git pull` to get them.
 
 ## Layout
 
